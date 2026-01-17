@@ -2,7 +2,7 @@
 
 This repository contains my tweaks to get Linux running well on this machine. They might also be applicable to the Yoga Book 9i - I don't have one to test!
 
-`sh install.sh` should install all the relevant tweaks.
+`sh install-fedora-atomic.sh` should install all the relevant tweaks if you are running Fedora Atomic/Universal Blue/Bazzite.
 
 ## Already working on Fedora 43 / Kernel 6.17
 
