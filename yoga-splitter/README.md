@@ -16,7 +16,7 @@ make
 sudo make install
 ```
 
-Then go into your desktop environment and set "Yoga Top Multitouch" to be mapped to the top screen, "Yoga Bottom Multitouch" to be mapped to the bottom screen, and then disable any input from any INGENIC devices (my touchscreen appears as "INGENEIC Gadget Serial and keyboard")
+Then go into your desktop environment and set "Yoga Top Multitouch" to be mapped to the top screen, "Yoga Bottom Multitouch" to be mapped to the bottom screen, and then disable any input from any INGENIC devices (my touchscreen appears as "INGENEIC Gadget Serial and keyboard"). In KDE this is all in System Settings - Touchscreen; I have no idea where it might be in other DEs.
 
 ## Issues
 

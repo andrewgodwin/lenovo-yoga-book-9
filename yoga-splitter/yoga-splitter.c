@@ -20,6 +20,7 @@
 
 // Track which Contact IDs are currently touching the glass
 bool slot_active[2][MAX_SLOTS] = { {false} };
+
 // Track last update time for each slot (in milliseconds)
 long long slot_last_update[2][MAX_SLOTS] = { {0} };
 
@@ -70,6 +71,7 @@ char* find_device() {
     return NULL;
 }
 
+// Send positional limits
 void setup_abs(int fd, unsigned int chan, int min, int max) {
     struct uinput_abs_setup abs = {0};
     abs.code = chan;
@@ -78,6 +80,7 @@ void setup_abs(int fd, unsigned int chan, int min, int max) {
     ioctl(fd, UI_ABS_SETUP, &abs);
 }
 
+// Make virtual touchscreen devices with all the right parameters set
 int create_virtual_device(const char* name) {
     int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
     ioctl(fd, UI_SET_EVBIT, EV_KEY);
@@ -106,6 +109,7 @@ int create_virtual_device(const char* name) {
     return fd;
 }
 
+// Wrapper for emitting events
 void emit(int fd, int type, int code, int val) {
     struct input_event ev = {0};
     ev.type = type; ev.code = code; ev.value = val;
@@ -117,6 +121,8 @@ int main() {
     int fds[2];
     fds[0] = create_virtual_device("Yoga Top Multitouch");
     fds[1] = create_virtual_device("Yoga Bottom Multitouch");
+
+    // An eight-finger touch USB-resets the device, so an outer loop to keep re-finding it if that happens
     while (1) {
         // Find the HID device
         char* dev_path = find_device();
@@ -125,13 +131,11 @@ int main() {
             sleep(2);
             continue;
         }
-
         int raw_fd = open(dev_path, O_RDONLY);
         if (raw_fd < 0) {
             sleep(1);
             continue;
         }
-
         printf("Connected to %s. Tracking active.\n", dev_path);
 
         unsigned char buf[128];
@@ -214,7 +218,6 @@ int main() {
 
                         // Pass through the slot IDs as the tracking IDs to the event subsystem
                         if (!slot_active[dev_idx][slot]) {
-                            // Assign a unique Tracking ID
                             emit(current_fd, EV_ABS, ABS_MT_TRACKING_ID, slot + (dev_idx * 10) + 1);
                             slot_active[dev_idx][slot] = true;
                         }
