@@ -20,9 +20,11 @@ Your compositor may or may not honor this; if it does not, just invert the top s
 
 ## Touchscreen
 
-The top screen's panel is installed upside-down but its digitizer is installed the right way up. KWin (at least) thinks that the digitizer should be running the same direction as the screen and gets everything inverted, even with screen rotation.
+The top screen's panel is installed upside-down but its digitizer is installed the right way up, and the bottom touchscreen reports touch events on a non-standard HID report code (0x38), on the same HID device.
 
-The included HWDB tweaks file goes in `/etc/udev/hwdb.d` and inverts the touch and stylus coordinates (they are, naturally, on different scales) to make it work.
+The "cleanest" way I found to fix this, pending a `hid-multitouch` fix, is a small daemon that opens the raw HID device, decodes the touch points itself (basically acting as a poor replica of `hid-multitouch`), and then sends the touch events to two new virtual input devices, one for each screen. That code is contained in the `yoga-splitter` subdirectory.
+
+I also included a HWDB quirks file that just fixes the coordinates for the top screen, if you don't want the bottom touchscreen to work.
 
 ## Screen Rotation
 

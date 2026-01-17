@@ -1,0 +1,19 @@
+[Unit]
+Description=Yoga Book 9i Touchscreen Splitter
+# Ensure we start after the basic system is ready
+After=multi-user.target
+# If the script depends on uinput, we ensure it's available
+Requires=systemd-modules-load.service
+
+[Service]
+Type=simple
+# Path to your compiled binary
+ExecStart=/usr/local/bin/yoga-splitter
+# Automatically restart if the process ever crashes
+Restart=always
+RestartSec=3
+# Run as root to access /dev/hidraw and /dev/uinput
+User=root
+
+[Install]
+WantedBy=multi-user.target
