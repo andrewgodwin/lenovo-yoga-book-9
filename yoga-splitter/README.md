@@ -16,6 +16,8 @@ make
 sudo make install
 ```
 
+Then go into your desktop environment and set "Yoga Top Multitouch" to be mapped to the top screen, "Yoga Bottom Multitouch" to be mapped to the bottom screen, and then disable any input from any INGENIC devices (my touchscreen appears as "INGENEIC Gadget Serial and keyboard")
+
 ## Issues
 
 There's some funky behaviour with the slots (fingers) in the underlying device; if there is only one contact point, it will always shove that contact point into the first slot, even if it was a later finger before. It's possible this is for legacy compatibility with systems that just read the first slot for non-multitouch input; either way, it means contact_count = 1 is special cased.
