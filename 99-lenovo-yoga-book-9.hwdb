@@ -1,0 +1,9 @@
+# Lenovo Yoga Book 9 top screen - invert X and Y axes
+# Digitizer is physically rotated 180° relative to the display panel
+# 00/01 is stylus digitizer
+# 35/36 is multitouch digitizer
+evdev:input:b0003v17EFp6161*
+ EVDEV_ABS_00=28598:0:110:0:0
+ EVDEV_ABS_01=17874:0:103:0:0
+ EVDEV_ABS_35=11440:0:110:0:0
+ EVDEV_ABS_36=7150:0:103:0:0
