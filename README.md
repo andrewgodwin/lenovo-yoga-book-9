@@ -1,4 +1,4 @@
-# Linux tweaks for the Lenovo Yoga Book 9 (13IMU9)
+# Linux tweaks for the Lenovo Yoga Book 9 (83FF / 13IMU9)
 
 This repository contains my tweaks to get Linux running well on this machine. They might also be applicable to the Yoga Book 9i - I don't have one to test!
 
@@ -28,7 +28,7 @@ I also included a HWDB quirks file that just fixes the coordinates for the top s
 
 ## Screen Rotation
 
-TODO. KDE will happily auto-rotate the top screen with the accelerometer but not the bottom one.
+KDE auto-rotates only the top screen (eDP-1) with the accelerometer. The `kde-rotation` directory contains a script that monitors orientation changes and syncs the bottom screen (eDP-2) rotation to match. It's likely easiest to just add it to KDE autostart.
 
 ## Speakers
 
