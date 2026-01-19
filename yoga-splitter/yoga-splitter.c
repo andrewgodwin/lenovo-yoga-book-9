@@ -237,13 +237,13 @@ int main()
                         continue;
 
                     emit(current_fd, EV_ABS, ABS_MT_SLOT, slot);
+                    contacts_seen++;
 
                     if (tip_switch)
                     {
                         // The device is a bit odd - as well as ignoring any active slots beyond contact_count,
                         // we also have to specifically only trust the first entry (NOT contact ID 1)
                         // if contact_count is 1.
-                        contacts_seen++;
                         if (contacts_seen > contact_count)
                             continue;
                         if (contact_count == 1 && i > 0)
@@ -270,7 +270,7 @@ int main()
                         emit(current_fd, EV_ABS, ABS_MT_POSITION_X, x);
                         emit(current_fd, EV_ABS, ABS_MT_POSITION_Y, y);
                         if (DEBUG)
-                            printf("Finger %i, CID %i, CC %i, Screen %i: X %i Y %i\n", slot, contact_id, contact_count, dev_idx, x, y);
+                            printf("Finger %i, CID %i, CC %i, CS %i, Screen %i: X %i Y %i\n", slot, contact_id, contact_count, contacts_seen, dev_idx, x, y);
 
                         // Touches in the first slot should also emit non-multitouch position events
                         if (slot == 0)
