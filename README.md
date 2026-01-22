@@ -24,7 +24,7 @@ The top screen's panel is installed upside-down but its digitizer is installed t
 
 The "cleanest" way I found to fix this, pending a `hid-multitouch` fix, is a small daemon that opens the raw HID device, decodes the touch points itself (basically acting as a poor replica of `hid-multitouch`), and then sends the touch events to two new virtual input devices, one for each screen. That code is contained in the `yoga-splitter` subdirectory.
 
-I also included a HWDB quirks file that just fixes the coordinates for the top screen, if you don't want the bottom touchscreen to work.
+I also included a HWDB quirks file that just fixes the coordinates for the top screen, if you don't want the bottom touchscreen to work. There is also a udev rules file that removes the default input device from the touchscreen so you don't have two.
 
 ## Screen Rotation
 

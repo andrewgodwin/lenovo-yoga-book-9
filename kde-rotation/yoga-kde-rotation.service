@@ -1,0 +1,12 @@
+[Unit]
+Description=Yoga Book 9 KDE Screen Rotation
+After=plasma-workspace.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/yoga-kde-rotation
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
