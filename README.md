@@ -10,7 +10,7 @@ WiFi, Bluetooth, battery control, power modes, USB devices
 
 ## Suspend/ACPI
 
-Works sporadically out of the box, but seems rock solid with the kernel argument `pci=hpiosize=0`
+Works sporadically out of the box, but seems rock solid with the kernel arguments `pci=hpiosize=0` (not quite sure why) and `acpi_osi=! "acpi_osi=Windows 2020"` (to pretend you're Windows to the ACPI and get the right events sent).
 
 ## Screen Orientation
 

@@ -1,5 +1,5 @@
 # Add kernel args
-sudo rpm-ostree kargs --append-if-missing=pci=hpiosize=0 --append-if-missing=video=eDP-1:panel_orientation=upside_down
+sudo rpm-ostree kargs --append-if-missing=pci=hpiosize=0 --append-if-missing=video=eDP-1:panel_orientation=upside_down --append-if-missing=acpi_osi=! --append-if-missing="acpi_osi=Windows 2020"
 
 # Add udev rule to ignore the default touch device
 sudo cp udev/99-lenovo-yoga-book-9.rules /etc/udev/rules.d/
