@@ -40,4 +40,10 @@ KDE auto-rotates only the top screen (eDP-1) with the accelerometer. The `kde-ro
 
 ## Speakers
 
-TODO. I know some firmware shenanigans are likely involved.
+There are two sets of speakers: the Realtek ALC287's `Speaker` output handles treble, and two TI TAS2781 smart amps handle the bass. The amps need the firmware file `TAS2XXX38F8.bin`, which isn't in `linux-firmware` yet - a copy is in this repo, extracted from the Windows drivers.
+
+The install script copies it to `/etc/firmware` and adds `firmware_class.path=/etc/firmware` to the kernel arguments, so it all works on atomic distributions (like Bazzite, where this fix was tested). The calibration/volumes are untested, so probably don't drive it too high at/above full volume.
+
+By default the system volume only changes the treble path (`Speaker`), not the bass path (`DAC2`). The WirePlumber rule in `wireplumber/` switches to software volume so they change together, and the install script fixes the HW levels at `Speaker` 81 and `DAC2` 87, which sets the treble 4.5dB below the bass, and then `alsactl store` saves those levels across reboots.
+
+The amps also go silent once they've power-saved, even with the firmware loaded, apparently because they lose their DSP program. Turning on the `Speaker Force Firmware Load` control fixes this by reloading it at each playback start, so the install script sets that too. The reload also resets `Speaker Analog Volume` to its default of 14, so there's no point setting that.
