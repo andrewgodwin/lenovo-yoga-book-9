@@ -28,3 +28,8 @@ sudo make install
 # Install and enable the KDE screen rotation
 cd ../kde-rotation
 sudo make install
+
+# Install and enable the keyboard position daemon
+cd ../yoga-keyboard
+make
+sudo make install

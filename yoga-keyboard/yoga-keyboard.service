@@ -1,0 +1,15 @@
+[Unit]
+Description=Yoga Book 9 Keyboard Position
+After=multi-user.target
+Requires=systemd-modules-load.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/yoga-keyboard
+Restart=always
+RestartSec=3
+# Run as root to access /dev/mem and /dev/uinput
+User=root
+
+[Install]
+WantedBy=multi-user.target

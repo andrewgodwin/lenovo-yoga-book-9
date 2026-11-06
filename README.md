@@ -47,3 +47,13 @@ The install script copies it to `/etc/firmware` and adds `firmware_class.path=/e
 By default the system volume only changes the treble path (`Speaker`), not the bass path (`DAC2`). The WirePlumber rule in `wireplumber/` switches to software volume so they change together, and the install script fixes the HW levels at `Speaker` 81 and `DAC2` 87, which sets the treble 4.5dB below the bass, and then `alsactl store` saves those levels across reboots.
 
 The amps also go silent once they've power-saved, even with the firmware loaded, apparently because they lose their DSP program. Turning on the `Speaker Force Firmware Load` control fixes this by reloading it at each playback start, so the install script sets that too. The reload also resets `Speaker Analog Volume` to its default of 14, so there's no point setting that.
+
+## Keyboard Detection
+
+The embedded controller knows if the magnetic keyboard is on the bottom screen, and where. Linux has no driver for this, so nothing acts on it yet, but the data is there if you want to do something like reserve that part of the screen.
+
+The state is the `BKBD` field, bits 4-5 of the byte at physical address `0xFE0B0423`: 0 is off the screen, 1 is against the hinge, and 2 is the normal typing position at the far edge. A userspace program can read it as root by mapping `/dev/mem` read-only, as Bazzite's kernel has no `ec_sys` module. This won't work with Secure Boot's kernel lockdown on.
+
+Every change also fires a WMI event, which shows up on the `acpi_event` generic netlink family (multicast group `acpi_mc_group`) with device class `wmi`, bus ID `PNP0C14:03` and type `0xEB`. The event carries no data, so read the byte when you get it, and once at startup.
+
+The `yoga-keyboard` daemon does all of this for you, and republishes the position as a virtual input device that doesn't need root to read.
