@@ -18,6 +18,12 @@ To fix it during boot and framebuffer consoles, add `video=eDP-1:panel_orientati
 
 Your compositor may or may not honor this; if it does not, just invert the top screen inside of it.
 
+## Brightness
+
+The `acpi_osi` arguments above make the kernel pick the ACPI backlight devices (`acpi_video0` and `acpi_video1`) over the native i915 ones. On recent kernels those devices accept values but don't change either panel, so the top screen's brightness controls do nothing.
+
+Add `acpi_backlight=native` to the kernel arguments to fix it. You should then have `intel_backlight` (top screen) and `card1-eDP-2-backlight` (bottom screen) in `/sys/class/backlight`, and both screens should respond to the brightness keys and KDE's slider.
+
 ## Touchscreen
 
 The top screen's panel is installed upside-down but its digitizer is installed the right way up, and the bottom touchscreen reports touch events on a non-standard HID report code (0x38), on the same HID device.
