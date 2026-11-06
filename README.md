@@ -10,7 +10,9 @@ WiFi, Bluetooth, battery control, power modes, USB devices
 
 ## Suspend/ACPI
 
-Works sporadically out of the box, but seems rock solid with the kernel arguments `pci=hpiosize=0` (not quite sure why) and `acpi_osi=! "acpi_osi=Windows 2020"` (to pretend you're Windows to the ACPI and get the right events sent).
+Works sporadically out of the box, but seems rock solid with the kernel arguments `pci=hpiosize=0` (not quite sure why) and `acpi_osi=!`.
+
+`acpi_osi=!` stops Linux answering yes to the firmware's Windows version checks. The firmware only checks up to `Windows 2015`, and this makes it fall back to its non-Windows OS value (`OSYS` is 1000 rather than 2015). That changes the value it sends to the embedded controller on wake, which is probably what fixes resume, though it also changes some other firmware behaviour, so that's not proven.
 
 ## Screen Orientation
 
@@ -20,7 +22,7 @@ Your compositor may or may not honor this; if it does not, just invert the top s
 
 ## Brightness
 
-The `acpi_osi` arguments above make the kernel pick the ACPI backlight devices (`acpi_video0` and `acpi_video1`) over the native i915 ones. On recent kernels those devices accept values but don't change either panel, so the top screen's brightness controls do nothing.
+The `acpi_osi=!` argument above makes the kernel pick the ACPI backlight devices (`acpi_video0` and `acpi_video1`) over the native i915 ones. On kernel 7.2 those devices accept values but don't change either panel, so the top screen's brightness controls do nothing.
 
 Add `acpi_backlight=native` to the kernel arguments to fix it. You should then have `intel_backlight` (top screen) and `card1-eDP-2-backlight` (bottom screen) in `/sys/class/backlight`, and both screens should respond to the brightness keys and KDE's slider.
 
